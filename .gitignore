@@ -1,0 +1,11 @@
+node_modules
+
+.idea
+*.vscode
+
+*.bundle.js
+dist
+
+*.log
+.nyc_output
+
