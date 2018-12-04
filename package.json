@@ -1,0 +1,30 @@
+{
+  "name": "nodejs-mentoring",
+  "version": "1.0.0",
+  "description": "folder with NodeJs Mentoring 2018Q4 tasks",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon -r @babel/register app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evgladkiy/NodeJS-Mentoring.git"
+  },
+  "keywords": [
+    "nodejs",
+    "mentoring"
+  ],
+  "author": "Yauheni Hladki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/evgladkiy/NodeJS-Mentoring/issues"
+  },
+  "homepage": "https://github.com/evgladkiy/NodeJS-Mentoring#readme",
+  "devDependencies": {
+    "@babel/core": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "@babel/register": "^7.0.0",
+    "nodemon": "^1.18.7"
+  }
+}
