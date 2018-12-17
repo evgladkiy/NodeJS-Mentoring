@@ -1,11 +1,11 @@
 # NodeJS Mentoring
 
-## Task 01 - NODE.JS MODULES. NPM
+## Task 02 - async development
 
 ### Evaluation Criteria:
 
-1. Nothing has been done except the project’s structure;
-2. **package.json**​​ has been created and contains the list of required packages;
-3. All three modules have been created and the classes have been implemented;
-4. The modules are imported to the main module as described in task 7 and 8;
-5. **package.json** “start” script uses babel and nodemon to run the app.
+1. CSV files are placed in appropriate directory;
+2. **DirWatcher​**​​ module is implemented and matches described criteria;
+3. **Importer**​​ ​module is implemented and matches described criteria;
+4. Application logic is implemented for a fixed (predefined) number of CSV files;
+5. Application logic is implemented for arbitrary number of CSV files (all tasks and subtasksare implemented properly) which could be added/changed/removed at any time.
