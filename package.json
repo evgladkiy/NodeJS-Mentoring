@@ -5,10 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "start": "nodemon -r @babel/register ./src/app.js",
-    "build": "npx babel src --out-dir src",
-    "precommit": "lint-staged",
+    "build": "npx babel ./src --out-dir dist",
     "lint": "npx eslint ./src/",
-    "eslint-check": "eslint --print-config . | eslint-config-prettier-check",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "lint-staged": {
@@ -31,6 +29,9 @@
     "url": "https://github.com/evgladkiy/NodeJS-Mentoring/issues"
   },
   "homepage": "https://github.com/evgladkiy/NodeJS-Mentoring#readme",
+  "dependencies": {
+    "lodash": "^4.17.11"
+  },
   "devDependencies": {
     "@babel/cli": "^7.2.0",
     "@babel/core": "^7.2.2",
