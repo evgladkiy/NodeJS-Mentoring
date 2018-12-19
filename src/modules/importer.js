@@ -3,29 +3,17 @@ import * as fs from 'fs';
 import { csvToJson, filenameFromPath } from '../utils';
 
 export default class Importer {
-  constructor(watcher, dirPath, delay) {
-    this.dirWatcher = watcher;
+  constructor(watcher, dirPath) {
     this.dirPath = dirPath;
-    this.delay = delay;
     this.deleteEventType = 'rename';
-    this.initialImport = true;
-    this.dirWatcher.on(this.dirWatcher.changedEvent, (eventType, filename) => {
-      if (eventType !== this.deleteEventType) {
-        this.import(`${this.dirPath}/${filename}`).then(result => {
-          console.log(`=== import csv async by event ===`);
-          console.log(result);
-        });
-      } else {
-        console.log(`=== file ${filename} deleted, nothing to import ===`);
-      }
-    });
-    this.dirWatcher.watch(this.dirPath, this.delay);
+    this.isInitialImport = true;
+    watcher.on(watcher.changedEvent, this.changeEventHandler.bind(this));
   }
 
   import(path) {
-    if (this.initialImport) {
+    if (this.isInitialImport) {
       return this.importAllCsv().then(result => {
-        this.initialImport = false;
+        this.isInitialImport = false;
         return result;
       });
     }
@@ -65,6 +53,17 @@ export default class Importer {
         }
       });
     });
+  }
+
+  changeEventHandler(eventType, filename) {
+    if (eventType !== this.deleteEventType) {
+      this.import(`${this.dirPath}/${filename}`).then(result => {
+        console.log(`=== import csv async by event ===`);
+        console.log(result);
+      });
+    } else {
+      console.log(`=== file ${filename} deleted, nothing to import ===`);
+    }
   }
 
   getImportResult(csv, filePath) {

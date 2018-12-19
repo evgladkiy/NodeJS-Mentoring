@@ -3,7 +3,10 @@ import { Importer, DirWatcher } from './modules';
 const csvPath = `${__dirname}/data/csv`;
 const carsCsvPath = `${__dirname}/data/csv/cars.csv`;
 
-const importer = new Importer(new DirWatcher(), csvPath, 500);
+const dirWatcher = new DirWatcher();
+const importer = new Importer(dirWatcher, csvPath);
+
+dirWatcher.watch(csvPath, 500);
 
 console.log(`=== import csv sync ===`);
 console.log(importer.importSync(carsCsvPath));
