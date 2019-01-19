@@ -1,11 +1,11 @@
 # NodeJS Mentoring
 
-## Task 02 - async development
+## Task 03 - COMMAND LINE. DEBUGGING. ERROR HANDLING / FILE SYSTEM AND STREAMS
 
 ### Evaluation Criteria:
 
-1. CSV files are placed in appropriate directory;
-2. **DirWatcher​**​​ module is implemented and matches described criteria;
-3. **Importer**​​ ​module is implemented and matches described criteria;
-4. Application logic is implemented for a fixed (predefined) number of CSV files;
-5. Application logic is implemented for arbitrary number of CSV files (all tasks and subtasksare implemented properly) which could be added/changed/removed at any time.
+1. **utils**​​ directory and empty ​``streams.js``​​ file were created;
+2. ``streams.js``​​ util is able to read command line and output help usage;
+3. Util meets all requirements for command line interaction. Most of mandatoryactions are implemented and called when appropriate arguments are passed;
+4. All required actions are implemented from ​task 6​. Some error handlings areimplemented, util validates some of parameters passed to it;
+5. All actions are implemented including an extra one from ​task 7​. Util handles allpossible error cases and validates all required parameters.

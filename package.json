@@ -5,8 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "start": "nodemon -r @babel/register ./src/app.js",
-    "build": "npx babel ./src --out-dir dist",
-    "lint": "npx eslint ./src/",
+    "build": "babel ./src --out-dir dist",
+    "lint": "eslint ./src/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "lint-staged": {
