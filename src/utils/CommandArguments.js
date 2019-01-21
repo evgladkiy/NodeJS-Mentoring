@@ -4,7 +4,7 @@ const yargsOptionsConfig = {
   action: {
     alias: 'a',
     describe: 'Еnter one of the available functions to be called',
-    choices: ['reverse', 'transform', 'outputFile', 'convertFromFile', 'convertToFile'],
+    choices: ['reverse', 'transform', 'outputFile', 'convertFromFile', 'convertToFile', 'cssBundler'],
     requiresArg: true,
     required: true,
   },
