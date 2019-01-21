@@ -151,7 +151,6 @@ export default class CommandExecutor {
 
   objectToString() {
     return through2.obj(function(chunk, encoding, next) {
-      JSON.stringify(chunk, null, 2);
       this.push(JSON.stringify(chunk, null, 2));
       next();
     });
