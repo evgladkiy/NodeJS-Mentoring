@@ -13,4 +13,7 @@ export default {
       port: 8040,
     },
   },
+  app: {
+    defaultPort: 8080,
+  },
 };

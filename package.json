@@ -8,8 +8,8 @@
     "server:html": "node ./src/http-servers​/html-server.js",
     "server:json": "node ./src/http-servers​/json-server.js",
     "server:echo": "node ./src/http-servers​/echo-server.js",
-    "start": "nodemon -r @babel/register ./src/app.js",
-    "build": "babel ./src --out-dir dist",
+    "start": "nodemon -r @babel/register ./src/index.js",
+    "build": "babel ./src/ --out-dir dist",
     "lint": "eslint ./src/"
   },
   "lint-staged": {
@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/evgladkiy/NodeJS-Mentoring#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "through2": "^3.0.0"
   },

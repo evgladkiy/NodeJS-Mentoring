@@ -1,4 +1,5 @@
 /* eslint-disable no-use-before-define */
+/* eslint-disable import/no-extraneous-dependencies */
 require('@babel/register');
 
 const http = require('http');
