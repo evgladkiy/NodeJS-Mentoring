@@ -5,7 +5,7 @@ node_modules
 
 *.bundle.js
 dist
-
+package-lock
 *.log
 .nyc_output
 
