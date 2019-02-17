@@ -2,6 +2,8 @@ import express from 'express';
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
 
+import config from '../config/config';
+
 const usersPath = `${__dirname}/../../assets/users.json`;
 const users = JSON.parse(fs.readFileSync(usersPath, 'utf8'));
 
@@ -22,7 +24,7 @@ router.post('/', (req, res) => {
             username: storedUser.name,
           },
         },
-        token: jwt.sign(storedUser, 'secret'),
+        token: jwt.sign(storedUser, config.jwt.secret),
       });
     } else {
       res.json({

@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 
 import cookieParser from './middlewares/cookieParser';
 import queryParser from './middlewares/queryParser';
+import tokenMiddleware from './middlewares/tokenMiddleware';
 
 import products from './routes/products';
 import users from './routes/users';
@@ -13,6 +14,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser);
 app.use(queryParser);
+
+app.use(tokenMiddleware);
 
 app.use('/auth', auth);
 app.use('/api/products', products);
