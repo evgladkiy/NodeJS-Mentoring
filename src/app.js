@@ -6,6 +6,7 @@ import queryParser from './middlewares/queryParser';
 
 import products from './routes/products';
 import users from './routes/users';
+import auth from './routes/auth';
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 app.use(cookieParser);
 app.use(queryParser);
 
+app.use('/auth', auth);
 app.use('/api/products', products);
 app.use('/api/users', users);
 
