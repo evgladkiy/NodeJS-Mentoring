@@ -1,0 +1,60 @@
+{
+  "name": "nodejs-mentoring",
+  "version": "1.0.0",
+  "description": "folder with NodeJs Mentoring 2018Q4 tasks",
+  "main": "src/app.js",
+  "scripts": {
+    "server:plain-text": "node ./src/http-servers​/plain-text-server.js",
+    "server:html": "node ./src/http-servers​/html-server.js",
+    "server:json": "node ./src/http-servers​/json-server.js",
+    "server:echo": "node ./src/http-servers​/echo-server.js",
+    "start": "nodemon -r @babel/register ./src/index.js",
+    "build": "babel ./src/ --out-dir dist",
+    "lint": "eslint ./src/"
+  },
+  "lint-staged": {
+    "./src/**/*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evgladkiy/NodeJS-Mentoring.git"
+  },
+  "keywords": [
+    "nodejs",
+    "mentoring"
+  ],
+  "author": "Yauheni Hladki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/evgladkiy/NodeJS-Mentoring/issues"
+  },
+  "homepage": "https://github.com/evgladkiy/NodeJS-Mentoring#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "through2": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.0",
+    "@babel/register": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "husky": "^1.2.1",
+    "lint-staged": "^8.1.0",
+    "nodemon": "^1.18.7",
+    "prettier": "^1.15.3"
+  },
+  "engines": {
+    "node": "10.14",
+    "npm": "6.4.1"
+  }
+}
