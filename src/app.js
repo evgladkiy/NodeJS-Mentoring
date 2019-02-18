@@ -1,25 +1,34 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import passport from 'passport';
+
+import initPassportLocal from './config/passport-local';
 
 import cookieParser from './middlewares/cookieParser';
 import queryParser from './middlewares/queryParser';
 import tokenMiddleware from './middlewares/tokenMiddleware';
 
-import products from './routes/products';
-import users from './routes/users';
-import auth from './routes/auth';
+import appRoute from './routes/app';
+import productsRoute from './routes/products';
+import usersRoute from './routes/users';
+import authRoute from './routes/auth';
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser);
 app.use(queryParser);
 
-app.use(tokenMiddleware);
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.use('/auth', auth);
-app.use('/api/products', products);
-app.use('/api/users', users);
+initPassportLocal();
+
+app.use('/', appRoute);
+app.use('/auth', authRoute);
+app.use('/api/products', tokenMiddleware, productsRoute);
+app.use('/api/users', tokenMiddleware, usersRoute);
 
 app.get('/*', (req, res) => {
   res.writeHead(404, { 'Content-Type': 'application/json' });
