@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 
 import initPassportLocal from './config/passport-local';
+import initPassporGoogle from './config/passport-google';
 
 import cookieParser from './middlewares/cookieParser';
 import queryParser from './middlewares/queryParser';
@@ -11,7 +12,8 @@ import tokenMiddleware from './middlewares/tokenMiddleware';
 import appRoute from './routes/app';
 import productsRoute from './routes/products';
 import usersRoute from './routes/users';
-import authRoute from './routes/auth';
+import authJWTRoute from './routes/auth-jwt';
+import authPassportRoute from './routes/auth-passport';
 
 const app = express();
 
@@ -24,9 +26,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 initPassportLocal();
+initPassporGoogle();
 
 app.use('/', appRoute);
-app.use('/auth', authRoute);
+app.use('/auth/jwt', authJWTRoute);
+app.use('/auth/passport', authPassportRoute);
 app.use('/api/products', tokenMiddleware, productsRoute);
 app.use('/api/users', tokenMiddleware, usersRoute);
 

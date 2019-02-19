@@ -1,7 +1,6 @@
 import express from 'express';
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
-import passport from 'passport';
 
 import config from '../config/config';
 
@@ -42,13 +41,5 @@ router.post('/', (req, res) => {
     });
   }
 });
-
-router.post(
-  '/passport',
-  passport.authenticate('local', {
-    successRedirect: '/success',
-    failureRedirect: '/error',
-  })
-);
 
 export default router;
