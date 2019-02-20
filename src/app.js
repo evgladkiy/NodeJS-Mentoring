@@ -5,6 +5,7 @@ import passport from 'passport';
 import initPassportLocal from './config/passport-local';
 import initPassporGoogle from './config/passport-google';
 import initPassporFacebook from './config/passport-facebook';
+import initPassporTwitter from './config/passport-twitter';
 
 import cookieParser from './middlewares/cookieParser';
 import queryParser from './middlewares/queryParser';
@@ -29,6 +30,7 @@ app.use(passport.session());
 initPassportLocal();
 initPassporGoogle();
 initPassporFacebook();
+initPassporTwitter();
 
 app.use('/', appRoute);
 app.use('/auth/jwt', authJWTRoute);
