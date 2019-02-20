@@ -22,10 +22,17 @@ router.get(
   '/google/callback',
   passport.authenticate('google', {
     failureRedirect: '/login',
-  }),
-  (req, res) => {
-    res.redirect('/success');
-  }
+    successRedirect: '/success',
+  })
+);
+
+router.get('/facebook', passport.authenticate('facebook'));
+
+router.get('/facebook/callback',
+  passport.authenticate('facebook', {
+    failureRedirect: '/error',
+    successRedirect: '/success',
+  })
 );
 
 export default router;
