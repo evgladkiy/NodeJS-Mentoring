@@ -1,11 +1,12 @@
 node_modules
+package-lock.json
 
 .idea
 *.vscode
 
 *.bundle.js
 dist
-
+package-lock
 *.log
 .nyc_output
 

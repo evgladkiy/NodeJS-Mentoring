@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <h2 style="text-align:center">Login page</h2>
+  <div style="display:flex; justify-content:space-evenly">
+    <section>
+      <h3>Get JWT using credentials</h3>
+      <form action="/auth/jwt" method="post" enctype="application/json">
+        <label for="login">Email</label>
+        <input type="text" name="login">
+        <label for="password">Password</label>
+        <input type="password" name="password">
+        <input type="submit">
+      </form>
+    </section>
+    <section>
+      <h3>Passport Local strategy</h3>
+      <form action="/auth/passport/local" method="post" enctype="application/json">
+        <label for="login">Email</label>
+        <input type="text" name="login">
+        <label for="password">Password</label>
+        <input type="password" name="password">
+        <input type="submit">
+      </form>
+    </section>
+  </div>
+  <section>
+    <h3 style="text-align:center">Users to login</h3>
+    <ul style="display:flex; max-width:1240px;flex-wrap:wrap;margin:0 auto;">
+      <li style="margin-left:36px;min-width:252px; margin-bottom: 20px">
+        <div>Login: admin@gmail.com</div>
+        <div>Password: admin</div>
+      </li>
+      <li style="margin-left:36px;min-width:252px">
+        <div>Login: brewerhendrix@gmail.com</div>
+        <div>Password: password</div>
+      </li>
+      <li style="margin-left:36px;min-width:252px">
+        <div>Login: christyhodges@gmail.com</div>
+        <div>Password: password</div>
+      </li>
+      <li style="margin-left:36px;min-width:252px">
+        <div>Login: gwenvelasquez@gmail.com</div>
+        <div>Password: password</div>
+      </li>
+      <li style="margin-left:36px;min-width:252px">
+        <div>Login: ellisgoodwin@gmail.com</div>
+        <div>Password: password</div>
+      </li>
+      <li style="margin-left:36px;min-width:252px">
+        <div>Login: cindydejesus@gmail.com</div>
+        <div>Password: password</div>
+      </li>
+      <li style="margin-left:36px;min-width:252px">
+        <div>Login: teresamerrill@gmail.com</div>
+        <div>Password: password</div>
+      </li>
+      <li style="margin-left:36px;min-width:252px">
+        <div>Login: estellefreeman@gmail.com</div>
+        <div>Password: password</div>
+      </li>
+    </ul>
+  </section>
+  <section style="display: flex;flex-direction:column;align-items:center;">
+    <h3>Login with passport </h3>
+    <div>
+      <a href="/auth/passport/facebook">Facebook</a>
+      <a href="/auth/passport/twitter">Twitter</a>
+      <a href="/auth/passport/google">Google</a>
+    </div>
+  </section>
+</body>
+
+</html>

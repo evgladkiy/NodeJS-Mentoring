@@ -1,0 +1,14 @@
+{
+  "id": 1,
+  "name": "Supreme T-Shirt",
+  "brand": "Supreme",
+  "price": 11.11,
+  "options": [
+    {
+      "color": "blue"
+    },
+    {
+      "size": "​XL"
+    }
+  ]
+}
