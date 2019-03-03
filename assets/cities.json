@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Minsk",
+    "country": "Belarus",
+    "isCapital": true,
+    "location": {
+      "lat": 65.830039,
+      "long": -15.923023
+    }
+  },
+  {
+    "name": "Grodno",
+    "country": "Belarus",
+    "isCapital": false,
+    "location": {
+      "lat": 51.857225,
+      "long": -60.13827
+    }
+  },
+  {
+    "name": "Gomel",
+    "country": "Belarus",
+    "isCapital": false,
+    "location": {
+      "lat": 72.554176,
+      "long": 39.525943
+    }
+  },
+  {
+    "name": "Brest",
+    "country": "Belarus",
+    "isCapital": false,
+    "location": {
+      "lat": 5.916128,
+      "long": -160.324345
+    }
+  },
+  {
+    "name": "Soligorsk",
+    "country": "Belarus",
+    "isCapital": false,
+    "location": {
+      "lat": -57.323483,
+      "long": -49.261984
+    }
+  },
+  {
+    "name": "Moscow",
+    "country": "Russia",
+    "isCapital": true,
+    "location": {
+      "lat": -88.813034,
+      "long": 17.87834
+    }
+  },
+  {
+    "name": "St-Petersburg",
+    "country": "Russia",
+    "isCapital": false,
+    "location": {
+      "lat": 80.30999,
+      "long": -84.263104
+    }
+  },
+  {
+    "name": "Brest",
+    "country": "France",
+    "isCapital": false,
+    "location": {
+      "lat": 7.448195,
+      "long": -176.515573
+    }
+  },
+  {
+    "name": "Paris",
+    "country": "France",
+    "isCapital": false,
+    "location": {
+      "lat": -3.637216,
+      "long": 147.959229
+    }
+  },
+  {
+    "name": "Monaco",
+    "country": "Monaco",
+    "isCapital": true,
+    "location": {
+      "lat": 28.968275,
+      "long": 69.17252
+    }
+  }
+]

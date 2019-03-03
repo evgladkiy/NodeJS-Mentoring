@@ -8,7 +8,8 @@
     "server:html": "node ./src/http-servers​/html-server.js",
     "server:json": "node ./src/http-servers​/json-server.js",
     "server:echo": "node ./src/http-servers​/echo-server.js",
-    "start": "nodemon -r @babel/register ./src/index.js",
+    "dev": "nodemon -r @babel/register ./src/index.js",
+    "start": "node -r @babel/register ./src/index.js",
     "build": "babel ./src/ --out-dir dist",
     "lint": "eslint ./src/"
   },
@@ -36,12 +37,14 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.16",
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
-    "through2": "^3.0.0"
+    "through2": "^3.0.0",
+    "validator": "^10.11.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.0",

@@ -1,15 +1,26 @@
 import express from 'express';
-import fs from 'fs';
 
-const usersPath = `${__dirname}/../../assets/users.json`;
+import UserModel from '../models/user';
+import { createNotFindByIdError, createDBError } from '../utils/errorCreators';
 
 const router = express.Router();
-const users = JSON.parse(fs.readFileSync(usersPath, 'utf8'));
-const jsonHeaders = { 'Content-Type': 'application/json' };
 
-router.get('/', (req, res) => {
-  res.writeHead(200, jsonHeaders);
-  res.end(JSON.stringify(users, null, 2));
+router.get('/', (req, res, next) => {
+  UserModel.find({})
+    .then(users => res.json(users))
+    .catch(() => next());
+});
+
+router.delete('/:id', (req, res, next) => {
+  UserModel.findByIdAndDelete(req.params.id)
+    .then(user => {
+      if (user) {
+        res.json(user);
+      } else {
+        next(createNotFindByIdError('user', req.params.id));
+      }
+    })
+    .catch(() => next(createDBError()));
 });
 
 export default router;

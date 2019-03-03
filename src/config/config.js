@@ -18,4 +18,14 @@ export default {
     consumerSecret: 'consumerSecret',
     callbackURL: 'http://localhost:8080/auth/passport/twitter/callback',
   },
+  mongo: {
+    dbUrl: 'mongodb://localhost',
+    dbPort: 27017,
+    dbName: 'nodejs',
+    collections: {
+      cities: 'city',
+      users: 'user',
+      products: 'product',
+    },
+  },
 };
