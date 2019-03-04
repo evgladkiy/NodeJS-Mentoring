@@ -2,8 +2,8 @@ import express from 'express';
 // for task 04
 // import fs from 'fs';
 
-import CityModel from '../models/city';
-import { createNotFindByIdError, createDBError } from '../utils/errorCreators';
+import { CityModel } from '../models';
+import { createNotFindByIdError, createDBError, addModifiedDateTo } from '../utils';
 
 const router = express.Router();
 
@@ -21,7 +21,9 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  new CityModel(req.body)
+  const newCity = addModifiedDateTo(req.body);
+
+  new CityModel(newCity)
     .save()
     .then(city => res.json(city))
     .catch(() => next(createDBError()));
@@ -41,8 +43,9 @@ router.delete('/:id', (req, res, next) => {
 
 router.put('/:id', (req, res, next) => {
   const { params, body } = req;
+  const newCity = addModifiedDateTo(body);
 
-  CityModel.findByIdAndUpdate(params.id, body, { new: true, upsert: true })
+  CityModel.findByIdAndUpdate(params.id, newCity, { new: true, upsert: true })
     .then(city => {
       if (city) {
         res.json(city);

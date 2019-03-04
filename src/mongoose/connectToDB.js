@@ -2,9 +2,8 @@ import mongoose from 'mongoose';
 import fs from 'fs';
 
 import config from '../config/config';
-import CityModel from '../models/city';
-import ProductModel from '../models/product';
-import UserModel from '../models/user';
+import { CityModel, UserModel, ProductModel } from '../models';
+import { addModifiedDateTo } from '../utils';
 
 const connectUrl = `${config.mongo.dbUrl}:${config.mongo.dbPort}/${config.mongo.dbName}`;
 const connectParams = { useNewUrlParser: true };
@@ -22,20 +21,23 @@ export default mongoose.connect(
 
         if (citiesFromDB.length === 0) {
           const initialCities = fs.readFileSync(`${__dirname}/../../assets/cities.json`, 'utf8');
+          const cities = JSON.parse(initialCities);
           console.log('cities initializing');
-          await CityModel.create(JSON.parse(initialCities));
+          await CityModel.create(addModifiedDateTo(cities));
         }
 
         if (productsFromDB.length === 0) {
           const initialProducts = fs.readFileSync(`${__dirname}/../../assets/products.json`, 'utf8');
+          const products = JSON.parse(initialProducts);
           console.log('products initializing');
-          await ProductModel.create(JSON.parse(initialProducts));
+          await ProductModel.create(addModifiedDateTo(products));
         }
 
         if (usersFromDB.length === 0) {
           const initialUsers = fs.readFileSync(`${__dirname}/../../assets/users.json`, 'utf8');
+          const users = JSON.parse(initialUsers);
           console.log('users initializing');
-          await UserModel.create(JSON.parse(initialUsers));
+          await UserModel.create(addModifiedDateTo(users));
         }
 
         console.log('DB started');

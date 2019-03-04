@@ -19,6 +19,10 @@ const productSchema = new mongoose.Schema({
     min: [0, 'Reviews must be a positive number'],
     type: Number,
   },
+  lastModifiedDate: {
+    required: false,
+    type: Date,
+  },
 });
 
 export default mongoose.model(config.mongo.collections.products, productSchema);

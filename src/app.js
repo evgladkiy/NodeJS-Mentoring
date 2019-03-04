@@ -2,16 +2,9 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
 
-import initPassportLocal from './config/passport-local';
-import initPassporGoogle from './config/passport-google';
-import initPassporFacebook from './config/passport-facebook';
-import initPassporTwitter from './config/passport-twitter';
-
+import { initPassportLocal, initPassportGoogle, initPassportFacebook, initPassportTwitter } from './config';
 import { createNotFoundError, createDefaultError } from './utils/errorCreators';
-
-import cookieParser from './middlewares/cookieParser';
-import queryParser from './middlewares/queryParser';
-import tokenMiddleware from './middlewares/tokenMiddleware';
+import { cookieParser, queryParser, tokenMiddleware } from './middlewares';
 
 import appRoute from './routes/app';
 import productsRoute from './routes/products';
@@ -31,18 +24,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 initPassportLocal();
-initPassporGoogle();
-initPassporFacebook();
-initPassporTwitter();
+initPassportGoogle();
+initPassportFacebook();
+initPassportTwitter();
 
 app.use('/', appRoute);
 app.use('/auth/jwt', authJWTRoute);
 app.use('/auth/passport', authPassportRoute);
-// app.use('/api/products', tokenMiddleware, productsRoute);
-// app.use('/api/users', tokenMiddleware, usersRoute);
-app.use('/api/products', productsRoute);
-app.use('/api/users', usersRoute);
-app.use('/api/cities', citiesRoute);
+app.use('/api/products', tokenMiddleware, productsRoute);
+app.use('/api/users', tokenMiddleware, usersRoute);
+app.use('/api/cities', tokenMiddleware, citiesRoute);
 
 app.get('*', (req, res, next) => next(createNotFoundError()));
 

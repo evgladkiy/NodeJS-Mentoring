@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema({
   company: {
     type: String,
   },
+  lastModifiedDate: {
+    required: false,
+    type: Date,
+  },
 });
 
 export default mongoose.model(config.mongo.collections.users, userSchema);

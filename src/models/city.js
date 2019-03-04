@@ -25,10 +25,10 @@ const citySchema = new mongoose.Schema({
       type: Number,
     },
   },
-  // lastModifiedDate: {
-  //   required: false,
-  //   type: String,
-  // },
+  lastModifiedDate: {
+    required: false,
+    type: Date,
+  },
 });
 
 export default mongoose.model(config.mongo.collections.cities, citySchema);

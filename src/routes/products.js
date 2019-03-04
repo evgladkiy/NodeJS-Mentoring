@@ -1,7 +1,7 @@
 import express from 'express';
 
-import ProductModel from '../models/product';
-import { createNotFindByIdError, createDBError } from '../utils/errorCreators';
+import { ProductModel } from '../models';
+import { createNotFindByIdError, createDBError, addModifiedDateTo } from '../utils';
 
 const router = express.Router();
 
@@ -13,10 +13,10 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const { body: reqBody } = req;
-  const newProduct = {
+  const newProduct = addModifiedDateTo({
     ...reqBody,
     reviews: reqBody.reviews || 0,
-  };
+  });
 
   new ProductModel(newProduct)
     .save()

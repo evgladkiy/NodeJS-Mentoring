@@ -1,7 +1,7 @@
 import express from 'express';
 
-import UserModel from '../models/user';
-import { createNotFindByIdError, createDBError } from '../utils/errorCreators';
+import { UserModel } from '../models';
+import { createNotFindByIdError, createDBError } from '../utils';
 
 const router = express.Router();
 
