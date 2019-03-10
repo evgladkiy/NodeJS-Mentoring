@@ -45,7 +45,6 @@ export default mongoose.connect(
         return Error('Something went wrong');
       }
     }
-
-    return Error('Connection to DB error');
+    throw error;
   }
 );
