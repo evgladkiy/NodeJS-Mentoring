@@ -23,6 +23,7 @@
   {
     "age": 31,
     "name": "Gwen Velasquez",
+    "password": "password",
     "email": "gwenvelasquez@gmail.com",
     "company": "ZENOLUX"
   },

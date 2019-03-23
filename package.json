@@ -8,6 +8,8 @@
     "server:html": "node ./src/http-servers​/html-server.js",
     "server:json": "node ./src/http-servers​/json-server.js",
     "server:echo": "node ./src/http-servers​/echo-server.js",
+    "tools:dockerStart": "docker-compose -f ./tools/docker/docker-compose.yml up",
+    "tools:initDB": "node ./tools/scripts/initDB.js",
     "dev": "nodemon -r @babel/register ./src/index.js",
     "start": "node -r @babel/register ./src/index.js",
     "build": "babel ./src/ --out-dir dist",

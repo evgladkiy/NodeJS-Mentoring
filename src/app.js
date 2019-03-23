@@ -28,6 +28,7 @@ initPassportGoogle();
 initPassportFacebook();
 initPassportTwitter();
 
+// delete token middleware for development
 app.use('/', appRoute);
 app.use('/auth/jwt', authJWTRoute);
 app.use('/auth/passport', authPassportRoute);
