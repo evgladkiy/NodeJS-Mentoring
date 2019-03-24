@@ -1,15 +1,18 @@
 import express from 'express';
-import fs from 'fs';
-
-const usersPath = `${__dirname}/../../assets/users.json`;
+import models from '../models';
 
 const router = express.Router();
-const users = JSON.parse(fs.readFileSync(usersPath, 'utf8'));
-const jsonHeaders = { 'Content-Type': 'application/json' };
+const { User } = models;
+
+const errorBody = {
+  status: 400,
+  message: 'Something went wrong, try again',
+};
 
 router.get('/', (req, res) => {
-  res.writeHead(200, jsonHeaders);
-  res.end(JSON.stringify(users, null, 2));
+  User.findAll({})
+    .then(users => res.json(users))
+    .catch(() => res.status(400).json(errorBody));
 });
 
 export default router;

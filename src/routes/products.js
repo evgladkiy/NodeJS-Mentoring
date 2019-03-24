@@ -1,57 +1,64 @@
 import express from 'express';
-import fs from 'fs';
 
-const productsPath = `${__dirname}/../../assets/products.json`;
+import models from '../models';
 
 const router = express.Router();
-const jsonHeaders = { 'Content-Type': 'application/json' };
-let products = JSON.parse(fs.readFileSync(productsPath, 'utf8'));
+const { Product } = models;
 
-router.get('/', (req, res) => {
-  res.writeHead(200, jsonHeaders);
-  res.end(JSON.stringify(products, null, 2));
+router.get('/', (req, res, next) => {
+  Product.findAll({})
+    .then(products => res.json(products))
+    .catch(() => next());
 });
 
-router.post('/', (req, res) => {
-  const { body: newProduct } = req;
-  // to remove the product if with such id exists
-  products = products.filter(product => product.id !== newProduct.id);
-  products.push(newProduct);
+router.post('/', (req, res, next) => {
+  const newProduct = {
+    color: req.body.color || null,
+    isFavorite: req.body.isFavorite || false,
+    name: req.body.name || null,
+    reviews: req.body.reviews || 0,
+  };
 
-  res.writeHead(200, jsonHeaders);
-  res.end(JSON.stringify(newProduct, null, 2));
+  Product.create(newProduct)
+    .then(product => res.json(product))
+    .catch(() => next());
 });
 
 router.get('/:id', (req, res, next) => {
-  const { id: productId } = req.params;
-  const reqProduct = products.find(product => product.id === productId);
-
-  if (reqProduct) {
-    res.writeHead(200, jsonHeaders);
-    res.end(JSON.stringify(reqProduct, null, 2));
-  } else {
-    next();
-  }
+  Product.findByPk(req.params.id)
+    .then(product => {
+      if (product) {
+        res.json(product);
+      } else {
+        res.status(404).send({
+          status: 404,
+          message: `Cannot find product with id: ${req.params.id}`,
+        });
+      }
+    })
+    .catch(() => next());
 });
 
 router.get('/:id/reviews', (req, res, next) => {
-  const { id: productId } = req.params;
-  const reqProduct = products.find(product => product.id === productId);
-
-  if (reqProduct) {
-    res.writeHead(200, jsonHeaders);
-    res.end(JSON.stringify(reqProduct.reviews, null, 2));
-  } else {
-    next();
-  }
+  Product.findByPk(req.params.id)
+    .then(product => {
+      if (product) {
+        res.json({ reviews: product.reviews });
+      } else {
+        res.status(404).send({
+          status: 404,
+          message: `Cannot find product with id: ${req.params.id}`,
+        });
+      }
+    })
+    .catch(() => next());
 });
 
 router.use('*', (req, res) => {
-  res.writeHead(404, jsonHeaders);
-  res.end(JSON.stringify({
-    status: 404,
-    message: `Cannot find product by route ${req.baseUrl}${req.url}`,
-  }, null, 2));
+  res.status(400).json({
+    status: 400,
+    message: 'Something went wrong, try again',
+  });
 });
 
 export default router;
