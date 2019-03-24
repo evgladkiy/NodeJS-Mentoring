@@ -18,14 +18,12 @@ import productsRoute from './routes/products';
 import usersRoute from './routes/users';
 import authJWTRoute from './routes/auth-jwt';
 import authPassportRoute from './routes/auth-passport';
-import DBInit from './utils/DBInit';
 
 const app = express();
 const sequelize = new Sequelize(...sequelizeConfig);
 
 sequelize
   .authenticate()
-  .then(() => DBInit(sequelize))
   .catch(err => console.log(err));
 
 app.use(bodyParser.json());
@@ -41,6 +39,7 @@ initPassporGoogle();
 initPassporFacebook();
 initPassporTwitter();
 
+// delete tokenMiddleware for testing;
 app.use('/', appRoute);
 app.use('/auth/jwt', authJWTRoute);
 app.use('/auth/passport', authPassportRoute);
