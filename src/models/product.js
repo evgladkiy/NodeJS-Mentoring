@@ -12,7 +12,6 @@ const productSchema = new mongoose.Schema({
     type: String,
   },
   isFavorite: {
-    required: [true, 'Product isFavorite is required'],
     type: Boolean,
   },
   reviews: {

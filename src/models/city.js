@@ -12,7 +12,6 @@ const citySchema = new mongoose.Schema({
     type: String,
   },
   isCapital: {
-    required: [true, 'isCapital is required'],
     type: Boolean,
   },
   location: {

@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
+import cors from 'cors';
 
 import { initPassportLocal, initPassportGoogle, initPassportFacebook, initPassportTwitter } from './config';
 import { createNotFoundError, createDefaultError } from './utils/errorCreators';
@@ -15,6 +16,7 @@ import authPassportRoute from './routes/auth-passport';
 
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser);

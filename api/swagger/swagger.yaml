@@ -1,60 +1,538 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
-  version: "0.0.1"
-  title: Hello World App
-# during dev, should point to your local machine
-host: localhost:10010
-# basePath prefixes all resource paths 
+  description: NodeJS mentoring program progect API
+  version: 1.0.0
+  title: NodeJS mentoring program - Swagger
+  contact:
+    email: evgladkiy@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    
+host: localhost:8080
 basePath: /
-# 
 schemes:
-  # tip: remove http to make production-grade
-  - http
-  - https
-# format of bodies a client can send (Content-Type)
-consumes:
-  - application/json
-# format of the responses to the client (Accepts)
-produces:
-  - application/json
+ - http
+
+tags:
+- name: Users
+  description: users route api
+- name: Products
+  description: products route api
+- name: Cities
+  description: cities route api
+  
+# paths
 paths:
-  /hello:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: hello_world
+# users routers
+  /api/users:
+    x-swagger-router-controller: users
     get:
-      description: Returns 'Hello' to the caller
-      # used as the method name of the controller
-      operationId: hello
-      parameters:
-        - name: name
-          in: query
-          description: The name of the person to whom to say hello
-          required: false
-          type: string
+      tags:
+      - Users
+      summary: Get a list of users
+      operationId: getUsers
+      description: Return all users
+      produces:
+      - application/json
       responses:
-        "200":
-          description: Success
+        200:
+          description: successful get request
           schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
-        # responses may fall through to errors
-        default:
-          description: Error
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        500:
+          description: internal server error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  /swagger:
-    x-swagger-pipe: swagger_raw
-# complex objects have schema definitions
+            $ref: '#/definitions/Error'
+            
+  /api/users/{id}:
+    x-swagger-router-controller: users
+    delete:
+      tags:
+      - Users
+      summary: Delete a user by id
+      description: Delete a user by id
+      operationId: deleteUser
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: id of the user to delete
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful delete request
+          schema:
+            $ref: '#/definitions/User'
+        404:
+          description: invalid user id
+          schema:
+            $ref: '#/definitions/Error'
+          examples: 
+            application/json:
+              code: 404,
+              msg: 'Cannot find user with id: 5ca07a0f8e4dab4124d48e69'
+        500:
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+  # cities routes
+  /api/cities:
+    x-swagger-router-controller: cities
+    get:
+      tags:
+      - Cities
+      summary: Get a list of cities
+      description: Return all cities
+      operationId: getCities
+      produces:
+      - application/json
+      responses:
+        200:
+          description: successful get request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/City'
+        500:
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      tags:
+      - Cities
+      summary: Add a city to the database
+      description: Add a city to the database and return added city
+      operationId: postCity
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: city object that needs to be added to the database.
+        required: true
+        schema:
+          $ref: '#/definitions/CreateCity'
+      responses:
+        200:
+          description: successful post request
+          schema:
+            $ref: '#/definitions/City'
+        400:
+          description: invalid data to create new city 
+          schema:
+            $ref: '#/definitions/Error'
+          examples: 
+            application/json:
+              code: 400,
+              msg: Cannot create city, check data you sent',
+        500:
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+  /api/cities/{id}:
+    x-swagger-router-controller: cities
+    delete:
+      tags:
+      - Cities
+      summary: Delete a city by id
+      description: Delete a city by id and return deleted city
+      operationId: deleteCity
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: id of the city to delete.
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful delete request.
+          schema:
+            $ref: '#/definitions/City'
+        404:
+          description: invalid city id
+          schema:
+            $ref: '#/definitions/Error'
+          examples: 
+            application/json:
+              code: 404,
+              msg: 'Cannot find city with id: 5ca07a0f8e4dab4124d48e56'
+        500:
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      tags:
+      - Cities
+      summary: Update a city by id
+      description: Update a city by id
+      operationId: putCity
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: id of the city to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: city object with data to update
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateCity'
+      responses:
+        200:
+          description: successful put request
+          schema:
+            $ref: '#/definitions/City'
+        404:
+          description: invalid city id
+          schema:
+            $ref: '#/definitions/Error'
+          examples: 
+            application/json:
+              code: 404,
+              msg: 'Cannot find city with id: 5ca07a0f8e4dab4124d48e56'
+        500:
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+  # products routers
+  /api/products:
+    x-swagger-router-controller: products
+    get:
+      tags:
+      - Products
+      summary: Get a list of products
+      description: Return all products
+      operationId: getProducts
+      produces:
+      - application/json
+      responses:
+        200:
+          description: successful get request
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+        500:
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      tags:
+      - Products
+      summary: Add a product to the database
+      description: Add a product to the database and return added product
+      operationId: postProduct
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: a product object that needs to be added to the database
+        required: true
+        schema:
+          $ref: '#/definitions/CreateProduct'
+      responses:
+        200:
+          description: successful post request
+          schema:
+            $ref: '#/definitions/Product'
+        400:
+          description: invalid data to create new product 
+          schema:
+            $ref: '#/definitions/Error'
+          examples: 
+            application/json:
+              code: 400,
+              msg: Cannot create product, check data you sent',
+        500:
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+  /api/products/{id}:
+    x-swagger-router-controller: products
+    get:
+      tags:
+      - Products
+      summary: Get a product by id
+      description: Get a product by id
+      operationId: getProductById
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: id of the product to delete.
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful get request
+          schema:
+            $ref: '#/definitions/Product'
+        404:
+          description: invalid product id
+          schema:
+            $ref: '#/definitions/Error'
+          examples: 
+            application/json:
+              code: 404,
+              msg: 'Cannot find product with id: 5ca07a0f8e4dab4124d48e56'
+        500:
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      tags:
+      - Products
+      summary: Delete a product by id
+      description: Delete a product by id
+      operationId: deleteProduct
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: id of the product to delete.
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful delete request.
+          schema:
+            $ref: '#/definitions/Product'
+        404:
+          description: invalid product id
+          schema:
+            $ref: '#/definitions/Error'
+          examples: 
+            application/json:
+              code: 404,
+              msg: 'Cannot find product with id: 5ca07a0f8e4dab4124d48e56'
+        500:
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+  /api/products/{id}/reviews:
+    x-swagger-router-controller: products
+    get:
+      tags:
+      - Products
+      summary: Get reviews of a producProductst
+      description: Get reviews of a product
+      operationId: getProductReviews
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: id of the product.
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful get request.
+          schema:
+             $ref: '#/definitions/Reviews'
+        404:
+          description: invalid product id
+          schema:
+            $ref: '#/definitions/Error'
+          examples: 
+            application/json:
+              code: 404,
+              msg: 'Cannot find product with id: 5ca07a0f8e4dab4124d48e56'
+        500:
+          description: internal server error
+          schema:
+            $ref: '#/definitions/Error'
+  
+# definitions
 definitions:
-  HelloWorldResponse:
-    required:
-      - message
+  # Error definition
+  Error: 
+    type: object
     properties:
+      status: 
+        type: integer
+        minimum: 100
+        maximum: 600
       message:
         type: string
-  ErrorResponse:
-    required:
-      - message
+    example: 
+      status: 500
+      message: Something went wrong with DB, try again later
+  # User definition
+  User:
+    type: object
     properties:
-      message:
+      _id:
         type: string
+      age:
+        type: integer
+        minimum: 12
+        maximum: 100
+      name:
+        type: string
+      email:
+        type: string
+        format: email
+        minLength: 5
+      password: 
+        type: string
+      company:
+        type: string   
+      lastModifiedDate: 
+        type: string
+        format: date-time
+    example:
+      _id: '5ca07a0f8e4dab4124d48e69'
+      age: 30
+      name: Brewer Hendrix
+      email: brewerhendrix@gmail.com
+      password: password
+      company: QUANTASIS
+      lastModifiedDate: '2019-03-31T08:27:59.427Z'
+  # City definition
+  City:
+    type: object
+    properties:
+      _id:
+        type: string
+      name:
+        type: string
+      country:
+        type: string
+      isCapital:
+        type: boolean
+      location:
+        $ref: '#/definitions/CityLocation'
+      lastModifiedDate: 
+        type: string
+        format: date-time
+    example:
+      _id: '5ca07a0f8e4dab4124d48e56'
+      name: Grodno
+      country: Belarus
+      isCapital: false
+      location:
+        lat: 51.857225
+        long: -60.13827
+      lastModifiedDate: '2019-03-31T08:27:59.301Z'
+  CreateCity:
+    type: object
+    required:
+    - name
+    - country
+    - location
+    properties:
+      name:
+        type: string
+      country:
+        type: string
+      isCapital:
+        type: boolean
+      location:
+        $ref: '#/definitions/CityLocation'
+    example:
+      name: Grodno
+      country: Belarus
+      location:
+        lat: 51.857225
+        long: -60.13827
+  UpdateCity:
+    type: object
+    properties:
+      name:
+        type: string
+      country:
+        type: string
+      isCapital:
+        type: boolean
+      location:
+        $ref: '#/definitions/CityLocation'
+    example:
+      name: Grodno
+      location:
+        lat: 51.857225
+        long: -60.13827
+# Product definition
+  Product:
+    type: object
+    properties:
+      _id:
+        type: string
+      name:
+        type: string
+      color:
+        type: string
+      isFavorite:
+        type: boolean
+      reviews:
+        type: integer
+        minimum: 0
+      lastModifiedDate: 
+        type: string
+        format: date-time
+    example:
+      _id: '5ca07a0f8e4dab4124d48e60'
+      name: orange
+      color: color
+      isFavorite: true
+      reviews: 34
+      lastModifiedDate: '2019-03-31T08:27:59.379Z'
+  CreateProduct:
+    type: object
+    required:
+    - name
+    - color
+    properties:
+      name:
+        type: string
+      color:
+        type: string
+      isFavorite:
+        type: boolean
+      reviews:
+        type: integer
+        minimum: 0
+    example:
+      name: orange
+      color: color
+      isFavorite: true
+      reviews: 34
+      
+# Other definitions
+  Reviews:
+    type: object
+    properties:
+      reviews:
+        type: string
+    example:
+      reviews: 42
+  
+  CityLocation:
+    type: object
+    properties:
+      lat:
+        type: number
+      long:
+        type: number
+    example: 
+      lat: 51.857225
+      long: -60.13827
