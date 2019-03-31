@@ -18,8 +18,10 @@ SwaggerExpress.create(swaggerConfig, (err, swagger) => {
     throw err;
   }
 
-  swagger.register(app);
   connectToDB
-    .then(() => app.listen(port, () => console.log(helloMsg)))
+    .then(() => {
+      swagger.register(app);
+      app.listen(port, () => console.log(helloMsg));
+    })
     .catch(err => console.log(err));
 });
