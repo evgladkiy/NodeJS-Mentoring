@@ -28,7 +28,6 @@ router.post('/', (req, res, next) => {
   });
   const createdCity = new CityModel(newCity);
   const validationError = createdCity.validateSync();
-
   if (validationError) {
     return next(createValidationModelError('city'));
   }
@@ -55,7 +54,7 @@ router.put('/:id', (req, res, next) => {
   const { params, body } = req;
   const newCity = addModifiedDateTo(body);
 
-  CityModel.findByIdAndUpdate(params.id, newCity, { new: true, upsert: true })
+  CityModel.findOneAndUpdate(params.id, newCity, { new: true, upsert: true })
     .then(city => {
       if (city) {
         res.json(city);

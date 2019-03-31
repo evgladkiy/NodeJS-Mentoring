@@ -448,7 +448,15 @@ definitions:
       isCapital:
         type: boolean
       location:
-        $ref: '#/definitions/CityLocation'
+        type: object
+        required:
+        - lat
+        - long
+        properties:
+          lat:
+            type: number
+          long:
+            type: number
     example:
       name: Grodno
       country: Belarus
