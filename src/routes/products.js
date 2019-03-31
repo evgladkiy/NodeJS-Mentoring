@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { ProductModel } from '../models';
-import { createNotFindByIdError, createDBError, addModifiedDateTo } from '../utils';
+import { createNotFindByIdError, createDBError, addModifiedDateTo, createValidationModelError } from '../utils';
 
 const router = express.Router();
 
@@ -17,8 +17,13 @@ router.post('/', (req, res, next) => {
     ...reqBody,
     reviews: reqBody.reviews || 0,
   });
+  const createdProduct = new ProductModel(newProduct);
+  const validationError = createdProduct.validateSync();
 
-  new ProductModel(newProduct)
+  if (validationError) {
+    return next(createValidationModelError('product'));
+  }
+  return createdProduct
     .save()
     .then(product => res.json(product))
     .catch(() => next(createDBError()));

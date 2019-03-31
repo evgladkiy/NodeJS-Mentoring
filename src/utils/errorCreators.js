@@ -5,9 +5,16 @@ export function createNotFindByIdError(item, id) {
   };
 }
 
-export function createDBError() {
+export function createValidationModelError(model) {
   return {
     code: 400,
+    msg: `Cannot create ${model}, check data you sent`,
+  };
+}
+
+export function createDBError() {
+  return {
+    code: 500,
     msg: 'Something went wrong with DB, try again later',
   };
 }

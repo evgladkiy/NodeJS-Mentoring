@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
   UserModel.find({})
     .then(users => res.json(users))
-    .catch(() => next());
+    .catch(() => next(createDBError()));
 });
 
 router.delete('/:id', (req, res, next) => {

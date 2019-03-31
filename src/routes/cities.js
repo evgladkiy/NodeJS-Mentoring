@@ -3,7 +3,7 @@ import express from 'express';
 // import fs from 'fs';
 
 import { CityModel } from '../models';
-import { createNotFindByIdError, createDBError, addModifiedDateTo } from '../utils';
+import { createNotFindByIdError, createDBError, addModifiedDateTo, createValidationModelError } from '../utils';
 
 const router = express.Router();
 
@@ -21,11 +21,16 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  const newCity = addModifiedDateTo(req.body);
+  const newCity = new CityModel(addModifiedDateTo(req.body));
+  const validationError = newCity.validateSync();
 
-  new CityModel(newCity)
+  if (validationError) {
+    return next(createValidationModelError('product'));
+  }
+
+  return newCity
     .save()
-    .then(city => res.json(city))
+    .then(product => res.json(product))
     .catch(() => next(createDBError()));
 });
 
