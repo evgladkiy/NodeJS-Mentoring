@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
+import cors from 'cors';
 
 import { initPassportLocal, initPassportGoogle, initPassportFacebook, initPassportTwitter } from './config';
 import { createNotFoundError, createDefaultError } from './utils/errorCreators';
@@ -15,6 +16,7 @@ import authPassportRoute from './routes/auth-passport';
 
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser);
@@ -32,9 +34,14 @@ initPassportTwitter();
 app.use('/', appRoute);
 app.use('/auth/jwt', authJWTRoute);
 app.use('/auth/passport', authPassportRoute);
-app.use('/api/products', tokenMiddleware, productsRoute);
-app.use('/api/users', tokenMiddleware, usersRoute);
-app.use('/api/cities', tokenMiddleware, citiesRoute);
+app.use('/api/products', productsRoute);
+app.use('/api/users', usersRoute);
+app.use('/api/cities', citiesRoute);
+
+// to enable tokenMiddleware for products, users and cities routes;
+// app.use('/api/products', tokenMiddleware, productsRoute);
+// app.use('/api/users', tokenMiddleware, usersRoute);
+// app.use('/api/cities', tokenMiddleware, citiesRoute);
 
 app.get('*', (req, res, next) => next(createNotFoundError()));
 

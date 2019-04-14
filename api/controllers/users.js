@@ -1,17 +1,13 @@
-import express from 'express';
+import { UserModel } from '../../src/models';
+import { createNotFindByIdError, createDBError } from '../../src/utils';
 
-import { UserModel } from '../models';
-import { createNotFindByIdError, createDBError } from '../utils';
-
-const router = express.Router();
-
-router.get('/', (req, res, next) => {
+function getUsers(req, res, next) {
   UserModel.find({})
     .then(users => res.json(users))
     .catch(() => next(createDBError()));
-});
+}
 
-router.delete('/:id', (req, res, next) => {
+function deleteUser(req, res, next) {
   UserModel.findByIdAndDelete(req.params.id)
     .then(user => {
       if (user) {
@@ -21,6 +17,6 @@ router.delete('/:id', (req, res, next) => {
       }
     })
     .catch(() => next(createDBError()));
-});
+}
 
-export default router;
+export { deleteUser, getUsers };

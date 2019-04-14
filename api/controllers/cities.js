@@ -1,26 +1,13 @@
-import express from 'express';
-// for task 04
-// import fs from 'fs';
+import { CityModel } from '../../src/models';
+import { createNotFindByIdError, createDBError, addModifiedDateTo, createValidationModelError } from '../../src/utils';
 
-import { CityModel } from '../models';
-import { createNotFindByIdError, createDBError, addModifiedDateTo, createValidationModelError } from '../utils';
-
-const router = express.Router();
-
-router.get('/', (req, res, next) => {
-  // for task 04
-  // const citiesPath = `${__dirname}/../../assets/cities.json`;
-  // const cities = JSON.parse(fs.readFileSync(citiesPath, 'utf8'));
-  // const randomIndex = Math.floor(Math.random() * cities.length);
-
-  // return res.json(cities[randomIndex]);
-
+function getCities(req, res, next) {
   CityModel.find({})
     .then(cities => res.json(cities))
     .catch(() => next(createDBError()));
-});
+}
 
-router.post('/', (req, res, next) => {
+function postCity(req, res, next) {
   const { body: reqBody } = req;
   const newCity = addModifiedDateTo({
     ...reqBody,
@@ -28,6 +15,7 @@ router.post('/', (req, res, next) => {
   });
   const createdCity = new CityModel(newCity);
   const validationError = createdCity.validateSync();
+
   if (validationError) {
     return next(createValidationModelError('city'));
   }
@@ -36,9 +24,9 @@ router.post('/', (req, res, next) => {
     .save()
     .then(city => res.json(city))
     .catch(() => next(createDBError()));
-});
+}
 
-router.delete('/:id', (req, res, next) => {
+function deleteCity(req, res, next) {
   CityModel.findByIdAndDelete(req.params.id)
     .then(city => {
       if (city) {
@@ -48,13 +36,13 @@ router.delete('/:id', (req, res, next) => {
       }
     })
     .catch(() => next(createDBError()));
-});
+}
 
-router.put('/:id', (req, res, next) => {
+function putCity(req, res, next) {
   const { params, body } = req;
   const newCity = addModifiedDateTo(body);
 
-  CityModel.findOneAndUpdate(params.id, newCity, { new: true, upsert: true })
+  CityModel.findByIdAndUpdate(params.id, newCity, { new: true, upsert: true })
     .then(city => {
       if (city) {
         res.json(city);
@@ -63,6 +51,6 @@ router.put('/:id', (req, res, next) => {
       }
     })
     .catch(() => next(createDBError()));
-});
+}
 
-export default router;
+export { deleteCity, getCities, postCity, putCity };
