@@ -3,7 +3,7 @@ import { OAuth2Strategy } from 'passport-google-oauth';
 
 import config from './config';
 
-export default function initPassporGoogle() {
+export default function initPassportGoogle() {
   passport.use(new OAuth2Strategy({
     clientID: config.google.clientID,
     clientSecret: config.google.clientSecret,

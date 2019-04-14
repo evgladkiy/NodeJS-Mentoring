@@ -3,7 +3,7 @@ import FacebookStrategy from 'passport-facebook';
 
 import config from './config';
 
-export default function initPassporFacebook() {
+export default function initPassportFacebook() {
   passport.use(new FacebookStrategy({
     clientID: config.facebook.clientID,
     clientSecret: config.facebook.clientSecret,

@@ -3,7 +3,7 @@ import TwitterStrategy from 'passport-twitter';
 
 import config from './config';
 
-export default function initPassporTwitter() {
+export default function initPassportTwitter() {
   passport.use(new TwitterStrategy({
     consumerKey: config.twitter.consumerKey,
     consumerSecret: config.twitter.consumerSecret,

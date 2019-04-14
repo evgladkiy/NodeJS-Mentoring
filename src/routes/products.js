@@ -1,57 +1,63 @@
 import express from 'express';
-import fs from 'fs';
 
-const productsPath = `${__dirname}/../../assets/products.json`;
+import { ProductModel } from '../models';
+import { createNotFindByIdError, createDBError, addModifiedDateTo } from '../utils';
 
 const router = express.Router();
-const jsonHeaders = { 'Content-Type': 'application/json' };
-let products = JSON.parse(fs.readFileSync(productsPath, 'utf8'));
 
-router.get('/', (req, res) => {
-  res.writeHead(200, jsonHeaders);
-  res.end(JSON.stringify(products, null, 2));
+router.get('/', (req, res, next) => {
+  ProductModel.find({})
+    .then(products => res.json(products))
+    .catch(() => next(createDBError()));
 });
 
-router.post('/', (req, res) => {
-  const { body: newProduct } = req;
-  // to remove the product if with such id exists
-  products = products.filter(product => product.id !== newProduct.id);
-  products.push(newProduct);
+router.post('/', (req, res, next) => {
+  const { body: reqBody } = req;
+  const newProduct = addModifiedDateTo({
+    ...reqBody,
+    reviews: reqBody.reviews || 0,
+  });
 
-  res.writeHead(200, jsonHeaders);
-  res.end(JSON.stringify(newProduct, null, 2));
+  new ProductModel(newProduct)
+    .save()
+    .then(product => res.json(product))
+    .catch(() => next(createDBError()));
 });
 
 router.get('/:id', (req, res, next) => {
-  const { id: productId } = req.params;
-  const reqProduct = products.find(product => product.id === productId);
+  ProductModel.findById(req.params.id)
+    .then(product => {
+      if (product) {
+        res.json(product);
+      } else {
+        next(createNotFindByIdError('product', req.params.id));
+      }
+    })
+    .catch(() => next(createDBError()));
+});
 
-  if (reqProduct) {
-    res.writeHead(200, jsonHeaders);
-    res.end(JSON.stringify(reqProduct, null, 2));
-  } else {
-    next();
-  }
+router.delete('/:id', (req, res, next) => {
+  ProductModel.findByIdAndDelete(req.params.id)
+    .then(product => {
+      if (product) {
+        res.json(product);
+      } else {
+        next(createNotFindByIdError('product', req.params.id));
+      }
+    })
+    .catch(() => next(createDBError()));
 });
 
 router.get('/:id/reviews', (req, res, next) => {
-  const { id: productId } = req.params;
-  const reqProduct = products.find(product => product.id === productId);
-
-  if (reqProduct) {
-    res.writeHead(200, jsonHeaders);
-    res.end(JSON.stringify(reqProduct.reviews, null, 2));
-  } else {
-    next();
-  }
-});
-
-router.use('*', (req, res) => {
-  res.writeHead(404, jsonHeaders);
-  res.end(JSON.stringify({
-    status: 404,
-    message: `Cannot find product by route ${req.baseUrl}${req.url}`,
-  }, null, 2));
+  ProductModel.findById(req.params.id)
+    .then(product => {
+      if (product) {
+        res.json({ reviews: product.reviews });
+      } else {
+        next(createNotFindByIdError('product', req.params.id));
+      }
+    })
+    .catch(() => next(createDBError()));
 });
 
 export default router;
